@@ -1,0 +1,25 @@
+{
+  "name": "wljs-markdown-support",
+  "version": "0.0.1",
+  "description": "Markdown cells support for WLJS Editor",
+  "scripts": {
+    "build": "node --max-old-space-size=8192 ./node_modules/.bin/rollup --config rollup.config.mjs"
+  },
+  "wljs-meta": {
+    "jsmodule": "dist/kernel.js",
+    "wl": "src/processor.wl",
+    "styles": "src/katex.css"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/JerryI/wljs-markdown-support"
+  },
+  "dependencies": {
+    "marked": "^5.0.1",
+    "marked-katex-extension": "^2.0.2",
+    "rollup": "^3.21.6"
+  },
+  "resolutions": {
+    "@babel/preset-env": "7.13.8"
+  }
+}
