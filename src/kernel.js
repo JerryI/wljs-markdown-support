@@ -18,6 +18,8 @@ class MarkdownCell {
     }
     
     constructor(parent, data) {
+      console.log('marked data:::');
+      console.log(data);
       parent.element.innerHTML = marked.parse(data);
       parent.element.classList.add('padding-fix');
       return this;
