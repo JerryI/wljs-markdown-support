@@ -9,6 +9,12 @@ const TexOptions = {
 
 marked.use(markedKatex(TexOptions));
 
+function unicodeToChar(text) {
+  return text.replace(/\\:[\da-f]{4}/gi, 
+         function (match) {
+              return String.fromCharCode(parseInt(match.replace(/\\:/g, ''), 16));
+         });
+}
 
 class MarkdownCell {
     origin = {}
@@ -20,7 +26,7 @@ class MarkdownCell {
     constructor(parent, data) {
       console.log('marked data:::');
       console.log(data);
-      parent.element.innerHTML = marked.parse(data);
+      parent.element.innerHTML = marked.parse(unicodeToChar(data));
       parent.element.classList.add('padding-fix');
       return this;
     }
