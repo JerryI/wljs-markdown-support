@@ -21361,15 +21361,6 @@ var katex = {
   }
 };
 
-function markedKatex(options = {}) {
-  return {
-    extensions: [
-      inlineKatex(options),
-      blockKatex(options)
-    ]
-  };
-}
-
 function inlineKatex(options) {
   return {
     name: 'inlineKatex',
@@ -21386,7 +21377,8 @@ function inlineKatex(options) {
       }
     },
     renderer(token) {
-      return katex.renderToString(token.text, options);
+      console.warn('inlineKatex');
+      return katex.renderToString(token.text.replaceAll('\\\\', '\\'), options);
     }
   };
 }
@@ -21397,7 +21389,7 @@ function blockKatex(options) {
     level: 'block',
     start(src) { return src.indexOf('\n$$'); },
     tokenizer(src, tokens) {
-      const match = src.match(/^\$\$+\n([^$]+?)\n\$\$+\n/);
+      const match = src.match(/^\$\$\n([^$]+?)\n\$\$/);
       if (match) {
         return {
           type: 'blockKatex',
@@ -21407,17 +21399,19 @@ function blockKatex(options) {
       }
     },
     renderer(token) {
-      return `<p>${katex.renderToString(token.text, options)}</p>`;
+      console.warn('blockKatex');
+      return `<p style="padding-top: 1em; padding-bottom: 1em;">${katex.renderToString(token.text.replaceAll('\\\\', '\\'), options)}</p>`;
     }
   };
 }
+
 
 const TexOptions = {
   throwOnError: false
 };
 
 
-marked.use(markedKatex(TexOptions));
+marked.use({extensions: [inlineKatex(TexOptions), blockKatex(TexOptions)]});
 
 function unicodeToChar(text) {
   return text.replace(/\\:[\da-f]{4}/gi, 

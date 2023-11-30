@@ -1,5 +1,51 @@
 import {marked} from "marked"
-import markedKatex from "marked-katex-extension"
+
+import katex from 'katex';
+
+
+function inlineKatex(options) {
+  return {
+    name: 'inlineKatex',
+    level: 'inline',
+    start(src) { return src.indexOf('$'); },
+    tokenizer(src, tokens) {
+      const match = src.match(/^\$+([^$\n]+?)\$+/);
+      if (match) {
+        return {
+          type: 'inlineKatex',
+          raw: match[0],
+          text: match[1].trim()
+        };
+      }
+    },
+    renderer(token) {
+      console.warn('inlineKatex');
+      return katex.renderToString(token.text.replaceAll('\\\\', '\\'), options);
+    }
+  };
+}
+
+function blockKatex(options) {
+  return {
+    name: 'blockKatex',
+    level: 'block',
+    start(src) { return src.indexOf('\n$$'); },
+    tokenizer(src, tokens) {
+      const match = src.match(/^\$\$\n([^$]+?)\n\$\$/);
+      if (match) {
+        return {
+          type: 'blockKatex',
+          raw: match[0],
+          text: match[1].trim()
+        };
+      }
+    },
+    renderer(token) {
+      console.warn('blockKatex');
+      return `<p style="padding-top: 1em; padding-bottom: 1em;">${katex.renderToString(token.text.replaceAll('\\\\', '\\'), options)}</p>`;
+    }
+  };
+}
 
 
 const TexOptions = {
@@ -7,7 +53,7 @@ const TexOptions = {
 };
 
 
-marked.use(markedKatex(TexOptions));
+marked.use({extensions: [inlineKatex(TexOptions), blockKatex(TexOptions)]});
 
 function unicodeToChar(text) {
   return text.replace(/\\:[\da-f]{4}/gi, 
