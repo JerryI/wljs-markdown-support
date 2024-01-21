@@ -73,14 +73,14 @@ class MarkdownCell {
       console.log('marked data:::');
       console.log(data);
       parent.element.innerHTML = marked.parse(unicodeToChar(data));
-      parent.element.classList.add('padding-fix');
+      parent.element.classList.add('markdown', 'margin-bottom-fix');
       return this;
     }
   }
   
 
   window.SupportedLanguages.push({
-    check: (r) => {return(r[0] === '.md')},
+    check: (r) => {return(r[0].match(/\w*\.(md)$/) != null)},
     plugins: [window.markdown()],
     name: window.markdownLanguage.name
   });

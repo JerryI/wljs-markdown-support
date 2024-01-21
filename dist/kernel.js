@@ -21431,7 +21431,7 @@ class MarkdownCell {
       console.log('marked data:::');
       console.log(data);
       parent.element.innerHTML = marked.parse(unicodeToChar(data));
-      parent.element.classList.add('padding-fix');
+      parent.element.classList.add('markdown');
       return this;
     }
   }
