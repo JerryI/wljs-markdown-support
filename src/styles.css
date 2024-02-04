@@ -2328,18 +2328,17 @@
 .markdown h3 {
     font-weight: 500;
     font-size:medium;
-    padding-bottom: 0.25rem;
 }
 
 .markdown h2 {
     font-weight: 500;
     font-size:larger;
-    padding-bottom: 0.5rem;
+    padding-bottom: 0.25rem;
 }
 
 .markdown h1 {
-    font-weight: 500 ;
-    font-size:large ;
+    font-weight: 500;
+    font-size: x-large;
     padding-bottom: 0.5rem;
 }
 
