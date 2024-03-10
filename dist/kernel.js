@@ -21361,6 +21361,23 @@ var katex = {
   }
 };
 
+const pasteDrop = {
+  transaction: (ev, view, id, length) => {
+    console.log(view.dom.ocellref);
+    if (view.dom.ocellref) {
+      const channel = view.dom.ocellref.origin.channel;
+      server._emitt(channel, `<|"Channel"->"${id}", "Length"->${length}, "CellType"->"md"|>`, 'Forwarded["CM:DropEvent"]');
+    }
+  },
+
+  file: (ev, view, id, name, result) => {
+    console.log(view.dom.ocellref);
+    if (view.dom.ocellref) {
+      server.emitt(id, `<|"Data"->"${result}", "Name"->"${name}"|>`, 'File');
+    }
+  }
+};
+
 function inlineKatex(options) {
   return {
     name: 'inlineKatex',
@@ -21439,7 +21456,7 @@ class MarkdownCell {
 
   window.SupportedLanguages.push({
     check: (r) => {return(r[0].match(/\w*\.(md)$/) != null)},
-    plugins: [window.markdown()],
+    plugins: [window.markdown(), window.DropPasteHandlers(pasteDrop)],
     name: window.markdownLanguage.name
   });
 

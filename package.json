@@ -8,7 +8,7 @@
   },
   "defaultPackage": true,
   "wljs-meta": {
-    "minjs": "dist/kernel.min.js",
+    "minjs": "dist/kernel.js",
     "js": "dist/kernel.js",
     "frontend": "src/Frontend.wl",
     "styles": "src/styles.css",
