@@ -2354,4 +2354,9 @@
     padding-bottom: 0.5rem;
 }
 
+.markdown a {
+    text-decoration:underline;
+    color: blue;
+}
+
 
