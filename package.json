@@ -1,17 +1,18 @@
 {
   "name": "wljs-markdown-support",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "Markdown cells support for WLJS Editor",
   "scripts": {
     "build": "node --max-old-space-size=8192 ./node_modules/.bin/rollup --config rollup.config.mjs",
     "restore": "mkdir _temp && cd _temp && git clone https://github.com/JerryI/wljs-markdown-support && mv wljs-markdown-support/.git ../.git && cd .. && rm -rf _temp"
- 
   },
   "defaultPackage": true,
   "wljs-meta": {
-    "jsmodule": "dist/kernel.js",
-    "wl": "src/processor.wl",
-    "styles": "src/katex.css"
+    "minjs": "dist/kernel.js",
+    "js": "dist/kernel.js",
+    "frontend": "src/Frontend.wl",
+    "styles": "src/styles.css",
+    "category": "Cell types"
   },
   "repository": {
     "type": "git",
@@ -21,6 +22,7 @@
     "@rollup/plugin-commonjs": "^25.0.4",
     "@rollup/plugin-json": "^6.0.0",
     "@rollup/plugin-node-resolve": "^15.2.1",
+    "@rollup/plugin-terser": "^0.4.4",
     "marked": "^5.0.1",
     "marked-katex-extension": "^2.0.2",
     "rollup": "^3.21.6"

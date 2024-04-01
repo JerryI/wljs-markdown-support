@@ -21361,6 +21361,48 @@ var katex = {
   }
 };
 
+const renderer = new marked.Renderer();
+const linkRenderer = renderer.link;
+renderer.link = (href, title, text) => {
+  const localLink = href.startsWith(`${location.protocol}//${location.hostname}`);
+  const html = linkRenderer.call(renderer, href, title, text);
+  return localLink ? html : html.replace(/^<a /, `<a target="_blank" rel="noreferrer noopener nofollow" `);
+};
+
+const pasteFile = {
+  transaction: (ev, view, id, length) => {
+    console.log(view.dom.ocellref);
+    if (view.dom.ocellref) {
+      const channel = view.dom.ocellref.origin.channel;
+      server._emitt(channel, `<|"Channel"->"${id}", "Length"->${length}, "CellType"->"md"|>`, 'Forwarded["CM:PasteEvent"]');
+    }
+  },
+
+  file: (ev, view, id, name, result) => {
+    console.log(view.dom.ocellref);
+    if (view.dom.ocellref) {
+      server.emitt(id, `<|"Data"->"${result}", "Name"->"${name}"|>`, 'File');
+    }
+  }
+};
+
+const pasteDrop = {
+  transaction: (ev, view, id, length) => {
+    console.log(view.dom.ocellref);
+    if (view.dom.ocellref) {
+      const channel = view.dom.ocellref.origin.channel;
+      server._emitt(channel, `<|"Channel"->"${id}", "Length"->${length}, "CellType"->"md"|>`, 'Forwarded["CM:DropEvent"]');
+    }
+  },
+
+  file: (ev, view, id, name, result) => {
+    console.log(view.dom.ocellref);
+    if (view.dom.ocellref) {
+      server.emitt(id, `<|"Data"->"${result}", "Name"->"${name}"|>`, 'File');
+    }
+  }
+};
+
 function inlineKatex(options) {
   return {
     name: 'inlineKatex',
@@ -21411,7 +21453,7 @@ const TexOptions = {
 };
 
 
-marked.use({extensions: [inlineKatex(TexOptions), blockKatex(TexOptions)]});
+marked.use({extensions: [inlineKatex(TexOptions), blockKatex(TexOptions)], renderer});
 
 function unicodeToChar(text) {
   return text.replace(/\\:[\da-f]{4}/gi, 
@@ -21431,15 +21473,15 @@ class MarkdownCell {
       console.log('marked data:::');
       console.log(data);
       parent.element.innerHTML = marked.parse(unicodeToChar(data));
-      parent.element.classList.add('padding-fix');
+      parent.element.classList.add('markdown', 'margin-bottom-fix');
       return this;
     }
   }
   
 
   window.SupportedLanguages.push({
-    check: (r) => {return(r[0] === '.md')},
-    plugins: [window.markdown()],
+    check: (r) => {return(r[0].match(/\w*\.(md)$/) != null)},
+    plugins: [window.markdown(), window.DropPasteHandlers(pasteDrop, pasteFile)],
     name: window.markdownLanguage.name
   });
 
