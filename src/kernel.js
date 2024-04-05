@@ -1,4 +1,8 @@
-import {marked} from "marked"
+let marked;
+
+
+await window.interpretate.shared.marked.load();
+marked = window.interpretate.shared.marked.default;
 
 const renderer = new marked.Renderer();
 const linkRenderer = renderer.link;
@@ -8,7 +12,11 @@ renderer.link = (href, title, text) => {
   return localLink ? html : html.replace(/^<a /, `<a target="_blank" rel="noreferrer noopener nofollow" `);
 };
 
-import katex from 'katex';
+let katex;
+
+
+await window.interpretate.shared.katex.load();
+katex = window.interpretate.shared.katex.default;
 
 const pasteFile = {
   transaction: (ev, view, id, length) => {
