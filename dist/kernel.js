@@ -78,7 +78,7 @@ function mark(options) {
   return {
     name: 'mark',
     level: 'inline',
-    start(src) { return src.indexOf('$'); },
+    start(src) { return src.indexOf('=='); },
     tokenizer(src, tokens) {
       const match = src.match(/^==+([^=\n]+?)==+/);
       if (match) {
