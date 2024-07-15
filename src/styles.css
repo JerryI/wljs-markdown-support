@@ -141,7 +141,7 @@
 .katex {
     text-rendering: auto;
     font: normal 1.21em KaTeX_Main, Times New Roman, serif;
-    line-height: 1.2;
+    line-height: normal;
     text-indent:0
 }
 
@@ -2318,7 +2318,8 @@
 }
 
 .markdown {
-    font-size: small;
+    font-size: medium;
+    padding-left: 0.1rem;
 }
 
 .markdown h4 {
@@ -2327,18 +2328,18 @@
 
 .markdown h3 {
     font-weight: 500;
-    font-size:medium;
+    font-size:large;
 }
 
 .markdown h2 {
     font-weight: 500;
-    font-size:larger;
+    font-size:x-large;
     padding-bottom: 0.25rem;
 }
 
 .markdown h1 {
     font-weight: 500;
-    font-size: x-large;
+    font-size: xx-large;
     padding-bottom: 0.5rem;
 }
 
@@ -2357,6 +2358,19 @@
 .markdown a {
     text-decoration:underline;
     color: blue;
+}
+
+.markdown-feobject {
+    text-align: left;
+    /* justify-content: center; */
+    padding: 1rem;
+    margin-left: auto;
+    margin-right: auto;
+    display:inline-block;
+    /* text-align: center; */
+    justify-content: center;
+    /* width: 100%; */
+    display: flex;
 }
 
 
