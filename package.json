@@ -12,7 +12,8 @@
     "js": "dist/kernel.js",
     "frontend": "src/Frontend.wl",
     "styles": "src/styles.css",
-    "category": "Cell types"
+    "category": "Cell types",
+    "cellExportRequired": true
   },
   "repository": {
     "type": "git",
