@@ -2373,4 +2373,15 @@
     display: flex;
 }
 
+.excalidraw li {
+    list-style: none;
+}
+
+.excalidraw .dropdown-menu-button.main-menu-trigger {
+    display: none;
+}
+
+.excalidraw .mobile-misc-tools-container {
+    display: none !important;
+}
 
