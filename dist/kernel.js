@@ -1,8 +1,17 @@
 let Marked;
-
+let Renderer;
 
 await window.interpretate.shared.Marked.load();
 Marked = window.interpretate.shared.Marked.default;
+Renderer = window.interpretate.shared.Marked.Renderer;
+
+const renderer = new Renderer();
+const linkRenderer = renderer.link;
+renderer.link = (href, title, text) => {
+  const localLink = href.startsWith(`${location.protocol}//${location.hostname}`);
+  const html = linkRenderer.call(renderer, href, title, text);
+  return localLink ? html : html.replace(/^<a /, `<a target="_blank" rel="noreferrer noopener nofollow" `);
+};
 
 /*const renderer = new Marked.Renderer();
 const linkRenderer = renderer.link;
@@ -182,7 +191,7 @@ class MarkdownCell {
       console.log(data);
       const self = this;
       
-      const marked = new Marked({async: true, extensions: [inlineKatex(TexOptions), mark(), blockKatex(), feObjects({buffer: self.feObjects})]});
+      const marked = new Marked({async: true, renderer, extensions: [inlineKatex(TexOptions), mark(), blockKatex(), feObjects({buffer: self.feObjects})]});
 
       marked.parse(unicodeToChar(data)).then((res) => {
         parent.element.innerHTML = res;
