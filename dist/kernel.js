@@ -163,6 +163,13 @@ const TexOptions = {
 
 //marked.use({extensions: [inlineKatex(TexOptions), blockKatex(TexOptions), feObjects()], renderer});
 
+function fixArrowBug(text) {
+  if (text.charAt(0) == '>') {
+    return text.slice(1);
+  }
+  return text;
+}
+
 function unicodeToChar(text) {
   return text.replace(/\\:[\da-f]{4}/gi, 
          function (match) {
@@ -193,7 +200,7 @@ class MarkdownCell {
       
       const marked = new Marked({async: true, renderer, extensions: [inlineKatex(TexOptions), mark(), blockKatex(), feObjects({buffer: self.feObjects})]});
 
-      marked.parse(unicodeToChar(data)).then((res) => {
+      marked.parse(fixArrowBug(unicodeToChar(data))).then((res) => {
         parent.element.innerHTML = res;
         self.feObjects.forEach(async (el) => {
           const cuid = Date.now() + Math.floor(Math.random() * 10009);

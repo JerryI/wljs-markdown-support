@@ -2343,6 +2343,16 @@
     padding-bottom: 0.5rem;
 }
 
+.markdown blockquote {
+    background-color: rgb(249 250 251 / 70%);
+    border-inline-start-width: 4px;
+    padding: 0.5rem;
+    padding-top: 0.2rem;
+    border-color: rgb(209 213 219);
+    margin-bottom: 0.5rem;
+    margin-top: 0.5rem;
+}
+
 .markdown ul {
     list-style-type: disc !important;
     padding-left: 1rem;
